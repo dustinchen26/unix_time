@@ -40,8 +40,14 @@
         function convertTimestamp() {
             var timestamp = document.getElementById('timestamp').value;
             var date = new Date(parseInt(timestamp)); // 將 Unix 時間戳轉換為毫秒
-            var options = { timeZone: 'Asia/Taipei', weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'long', hour12: false };
+            var options = { timeZone: 'Asia/Taipei', weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
             var formattedDate = date.toLocaleString('en-US', options);
+            
+            // 添加 GMT+0800 (台北標準時間) 部分
+            var gmtOffset = ' GMT+0800';
+            var timezoneName = '(台北標準時間)';
+            formattedDate = formattedDate.replace(/GMT.*$/, '') + gmtOffset + ' ' + timezoneName;
+            
             document.getElementById('result').innerHTML = "<span class='blue-text'>" + formattedDate + "</span>";
         }
 
@@ -63,8 +69,8 @@
 <body>
     <h2>unix_time_converter</h2>
 	
-    <h3>(1) "unix_time_Milliseconds" convert to "GMT+8(台北標準時間)_time"</h3>
-    <label for="timestamp">Current Unix Timestamp(Format: Milliseconds):</label>
+    <h3>(1) "unix_time" convert to "GMT+8(台北標準時間)_time"</h3>
+    <label for="timestamp">The Current Epoch Unix Timestamp:</label>
     <input type="text" id="timestamp" placeholder=" Epoch Timestamp">
     <button onclick="convertTimestamp()">Convert</button>
     <div id="result"></div>
