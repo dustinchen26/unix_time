@@ -1,9 +1,3 @@
-<!-- 
-  Copyright © [2023] [Dustin_Chen]. All rights reserved.
-  Author: Dustin Chen
-  Email:  Dustin_Chen@compal.com
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +8,7 @@
         .author-info {
             display: inline;
             margin-right: 10px;
-        }	
+        }   
 	
         input[type="text"] {
             width: 100px; /* 調整輸入框的寬度 */
@@ -27,14 +21,14 @@
         body {
             font-family: Roboto, sans-serif;
             /* font-family: Arial, sans-serif;*/
-            font-size: 14px;            /* 設置較小的字體大小 */
+            font-size: 14px; /* 設置較小的字體大小 */
         }		
     </style>
     <script>
         window.onload = function() {
             // 預先填入當前時間
             var now = new Date();
-            document.getElementById('timestamp').value = Math.floor(now.getTime() / 1000);
+            document.getElementById('timestamp').value = now.getTime();
             document.getElementById('year').value = now.getFullYear();
             document.getElementById('month').value = ('0' + (now.getMonth() + 1)).slice(-2); // 月份從0開始計算
             document.getElementById('day').value = ('0' + now.getDate()).slice(-2);
@@ -45,8 +39,8 @@
 
         function convertTimestamp() {
             var timestamp = document.getElementById('timestamp').value;
-            var date = new Date(timestamp * 1000);
-            var options = { timeZone: 'Asia/Taipei', weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short', hour12: false };
+            var date = new Date(parseInt(timestamp)); // 將 Unix 時間戳轉換為毫秒
+            var options = { timeZone: 'Asia/Taipei', weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'long', hour12: false };
             var formattedDate = date.toLocaleString('en-US', options);
             document.getElementById('result').innerHTML = "<span class='blue-text'>" + formattedDate + "</span>";
         }
@@ -60,7 +54,7 @@
             var seconds = parseInt(document.getElementById('seconds').value);
 
             var date = new Date(year, month, day, hour, minutes, seconds);
-            var unixTimestamp = date.getTime() / 1000;
+            var unixTimestamp = date.getTime();
 
             document.getElementById('result2').innerHTML = "<span class='blue-text'>Unix Timestamp: " + unixTimestamp + "</span>";
         }
@@ -69,12 +63,8 @@
 <body>
     <h2>unix_time_converter</h2>
 	
-    <p class="author-info">Author: Dustin_Chen</p>
-    <p class="author-info">Email: <a href="mailto:Dustin_Chen@compal.com">Dustin_Chen@compal.com</a></p>
-    <p class="author-info">or <a href="mailto:chuhpsdustin@gmail.com">chuhpsdustin@gmail.com</a></p>
-		
-    <h3>(1) "unix_time" convert to "GMT+8(台北標準時間)_time"</h3>
-    <label for="timestamp">The Current Epoch Unix Timestamp:</label>
+    <h3>(1) "unix_time_Milliseconds" convert to "GMT+8(台北標準時間)_time"</h3>
+    <label for="timestamp">Current Unix Timestamp(Format: Milliseconds):</label>
     <input type="text" id="timestamp" placeholder=" Epoch Timestamp">
     <button onclick="convertTimestamp()">Convert</button>
     <div id="result"></div>
