@@ -1,0 +1,98 @@
+<!-- 
+  Copyright © [2023] [Dustin_Chen]. All rights reserved.
+  Author: Dustin Chen
+  Email:  Dustin_Chen@compal.com
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unix_time_converter</title>
+    <style>
+        .author-info {
+            display: inline;
+            margin-right: 10px;
+        }	
+	
+        input[type="text"] {
+            width: 100px; /* 調整輸入框的寬度 */
+        }
+
+        .blue-text {
+            color: blue; /* 將文字顏色設置為藍色 */
+        }
+		
+        body {
+            font-family: Roboto, sans-serif;
+            /* font-family: Arial, sans-serif;*/
+            font-size: 14px;            /* 設置較小的字體大小 */
+        }		
+    </style>
+    <script>
+        window.onload = function() {
+            // 預先填入當前時間
+            var now = new Date();
+            document.getElementById('timestamp').value = Math.floor(now.getTime() / 1000);
+            document.getElementById('year').value = now.getFullYear();
+            document.getElementById('month').value = ('0' + (now.getMonth() + 1)).slice(-2); // 月份從0開始計算
+            document.getElementById('day').value = ('0' + now.getDate()).slice(-2);
+            document.getElementById('hour').value = ('0' + now.getHours()).slice(-2);
+            document.getElementById('minutes').value = ('0' + now.getMinutes()).slice(-2);
+            document.getElementById('seconds').value = ('0' + now.getSeconds()).slice(-2);
+        };
+
+        function convertTimestamp() {
+            var timestamp = document.getElementById('timestamp').value;
+            var date = new Date(timestamp * 1000);
+            var options = { timeZone: 'Asia/Taipei', weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short', hour12: false };
+            var formattedDate = date.toLocaleString('en-US', options);
+            document.getElementById('result').innerHTML = "<span class='blue-text'>" + formattedDate + "</span>";
+        }
+
+        function convertToUnixTimestamp() {
+            var year = parseInt(document.getElementById('year').value);
+            var month = parseInt(document.getElementById('month').value) - 1; // 月份從0開始計算
+            var day = parseInt(document.getElementById('day').value);
+            var hour = parseInt(document.getElementById('hour').value);
+            var minutes = parseInt(document.getElementById('minutes').value);
+            var seconds = parseInt(document.getElementById('seconds').value);
+
+            var date = new Date(year, month, day, hour, minutes, seconds);
+            var unixTimestamp = date.getTime() / 1000;
+
+            document.getElementById('result2').innerHTML = "<span class='blue-text'>Unix Timestamp: " + unixTimestamp + "</span>";
+        }
+    </script>
+</head>
+<body>
+    <h2>unix_time_converter</h2>
+	
+    <p class="author-info">Author: Dustin_Chen</p>
+    <p class="author-info">Email: <a href="mailto:Dustin_Chen@compal.com">Dustin_Chen@compal.com</a></p>
+    <p class="author-info">or <a href="mailto:chuhpsdustin@gmail.com">chuhpsdustin@gmail.com</a></p>
+		
+    <h3>(1) "unix_time" convert to "GMT+8(台北標準時間)_time"</h3>
+    <label for="timestamp">The Current Epoch Unix Timestamp:</label>
+    <input type="text" id="timestamp" placeholder=" Epoch Timestamp">
+    <button onclick="convertTimestamp()">Convert</button>
+    <div id="result"></div>
+
+    <h3>(2) "GMT+8_time" convert to "unix_time"</h3>
+    <label for="year">Year:</label>
+    <input type="text" id="year" placeholder=" Year" style="width: 60px;">
+    <label for="month">Month:</label>
+    <input type="text" id="month" placeholder=" Month" style="width: 40px;">
+    <label for="day">Day:</label>
+    <input type="text" id="day" placeholder=" Day" style="width: 40px;">
+    <label for="hour">Hour (24 hour):</label>
+    <input type="text" id="hour" placeholder=" Hour" style="width: 40px;">
+    <label for="minutes">Minutes:</label>
+    <input type="text" id="minutes" placeholder=" Minutes" style="width: 40px;">
+    <label for="seconds">Seconds:</label>
+    <input type="text" id="seconds" placeholder=" Seconds" style="width: 40px;">
+    <button onclick="convertToUnixTimestamp()">Convert</button>
+    <div id="result2"></div>
+</body>
+</html>
